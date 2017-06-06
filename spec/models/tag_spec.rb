@@ -7,6 +7,12 @@ RSpec.describe Tag, type: :model do
         tag = Tag.new
         expect(tag).to be_invalid
       end
+
+      it "is has unique title" do
+        Tag.create!(title: 'awesome')
+        tag = Tag.new(title: 'awesome')
+        expect(tag).to be_invalid
+      end
     end
 
     context "valid attributes" do
@@ -15,6 +21,7 @@ RSpec.describe Tag, type: :model do
         expect(tag).to be_valid
       end
     end
+
   end
 
   describe "relationships" do
