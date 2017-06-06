@@ -15,11 +15,10 @@ RSpec.feature 'Tag', type: :feature do
       tag = Tag.create!(title: 'cool job dude')
       job.tags.append(tag)
       job2.tags.append(tag)
-      binding.pry
 
       visit(company_job_path(company, job))
 
-      expect(page).to have_content("#{tag.title} - #{tag.count}")
+      expect(page).to have_content("#{tag.title} 2")
     end
   end
 end
