@@ -4,4 +4,9 @@ class Job < ActiveRecord::Base
   has_many :tags, through: :job_tags
 
   validates :title, :level_of_interest, :city, presence: true
+
+  def tag_list
+    # binding.pry
+    self.tags
+  end
 end

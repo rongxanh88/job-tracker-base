@@ -1,23 +1,35 @@
 require 'rails_helper'
 
 RSpec.feature 'Tag', type: :feature do
-  describe 'is attached to multiple jobs' do
-    it 'shows count of jobs with that tag' do
-      skip
-      company = Company.create(name: 'Fox')
-      job = company.jobs.create!(
-        title: 'Water Filler', description: 'Lives Dangerously',
-        level_of_interest: 90, city: 'Denver'
-        )
-      job2 = company.jobs.create!(
-        title: 'Water Drinker', description: 'Must Drink 10 gallons per day',
-        level_of_interest: 10, city: 'Denver'
+  before(:each) do
+    @company = Company.create!(name: 'Fox News')
+    @job = @company.jobs.create!(
+      title: 'Water Filler', description: 'Lives Dangerously',
+      level_of_interest: 90, city: 'Denver'
       )
-      tag = Tag.create!(title: 'cool job')
+    @tag = @job.tags.create!(title: 'cool job for juniors')
+    @different_tag = Tag.create!(title: 'unrelated')
+  end
 
-      visit(company_job_path(company, job))
+  describe 'is attached to job' do
+    it "is seen with job" do
+      visit(company_job_path(@company, @job))
 
-      expect(page).to have_content("#{tag.title} - #{tag.count}")
+      expect(page).to have_content(@job.title)
+      expect(page).to have_content(@tag.title)
+      expect(page).not_to have_content(@different_tag.title)
+    end
+
+    it 'multiple tags are seen with job' do
+      skip
+      another_tag = @job.tags.create!(title: 'ask about this job')
+
+      visit(company_job_path(@company, @job))
+
+      expect(page).to have_content(@job.title)
+      expect(page).to have_content(@tag.title)
+      expect(page).to have_content(another_tag.title)
+      expect(page).not_to have_content(@different_tag.title)
     end
   end
 end
