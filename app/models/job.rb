@@ -8,10 +8,12 @@ class Job < ActiveRecord::Base
   def tag_list
     self.tags.collect do |tag|
       tag.title
-    end.join(", ")
+    end.zip(get_tag_count).join
   end
 
   def get_tag_count
-
+    self.tags.collect do |tag|
+      JobTag.where(tag_id: tag.id).count 
+    end
   end
 end
