@@ -21,7 +21,6 @@ RSpec.feature 'Tag', type: :feature do
     end
 
     it 'multiple tags are seen with job' do
-      skip
       another_tag = @job.tags.create!(title: 'ask about this job')
 
       visit(company_job_path(@company, @job))

@@ -6,7 +6,12 @@ class Job < ActiveRecord::Base
   validates :title, :level_of_interest, :city, presence: true
 
   def tag_list
-    # binding.pry
-    self.tags
+    self.tags.collect do |tag|
+      tag.title
+    end.join(", ")
+  end
+
+  def get_tag_count
+
   end
 end
